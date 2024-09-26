@@ -1,6 +1,5 @@
 using NetArchTest.Rules;
 using OT.Assignment.Application.Interfaces;
-using OT.Assignment.Domain;
 using OT.Assignment.Domain.Entities;
 using OT.Assignment.Infrastructure;
 

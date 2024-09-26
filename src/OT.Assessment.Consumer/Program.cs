@@ -34,7 +34,8 @@ var host = Host.CreateDefaultBuilder(args)
 
             return factory.CreateConnection();
         });
-        services.AddSingleton(typeof(IQueuePublisher<>), typeof(RabbitMqQueuePublisher<>));
+
+        services.AddScoped(typeof(IQueuePublisher<>), typeof(RabbitMqQueuePublisher<>));
         services.AddScoped(typeof(IPlayerCasinoRepository), typeof(PlayerCasinoRepository));
         services.AddScoped<IWagerService, WagerService>();
         services.AddHostedService<RabbitMqWagerBackgroundService>();
@@ -42,6 +43,7 @@ var host = Host.CreateDefaultBuilder(args)
     .Build();
 
 var logger = host.Services.GetRequiredService<ILogger<Program>>();
+
 logger.LogInformation("Application started {time:yyyy-MM-dd HH:mm:ss}", DateTime.Now);
 
 await host.RunAsync();

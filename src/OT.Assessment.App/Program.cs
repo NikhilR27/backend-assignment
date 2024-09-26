@@ -2,6 +2,7 @@ using System.Data;
 using System.Reflection;
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Options;
+using OT.Assessment.App.Middleware;
 using OT.Assignment.Application.Interfaces;
 using OT.Assignment.Application.Services;
 using OT.Assignment.Infrastructure.Messaging;
@@ -21,7 +22,7 @@ builder.Services.AddSwaggerGen(options =>
     options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFilename));
 });
 
-builder.Services.AddTransient<IDbConnection>(sp => 
+builder.Services.AddTransient<IDbConnection>(sp =>
     new SqlConnection(builder.Configuration.GetConnectionString("DatabaseConnection")));
 builder.Services.Configure<RabbitMqSettings>(builder.Configuration.GetSection("RabbitMQSettings"));
 builder.Services.AddSingleton<IConnection>(sp =>
@@ -45,7 +46,9 @@ builder.Services.AddScoped<IWagerService, WagerService>();
 
 
 var app = builder.Build();
+var logger = app.Services.GetRequiredService<ILogger<Program>>();
 
+// Force initialization of RabbitMQ connection
 var rabbitMqConnection = app.Services.GetRequiredService<IConnection>();
 
 // Configure the HTTP request pipeline.
@@ -59,6 +62,8 @@ if (app.Environment.IsDevelopment())
         opts.DisplayRequestDuration();
     });
 }
+
+app.ConfigureExceptionHandler(logger);
 
 app.UseHttpsRedirection();
 
