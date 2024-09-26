@@ -10,8 +10,16 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+		<PackageReference Include="MassTransit" Version="8.2.5" />
+		<PackageReference Include="MassTransit.RabbitMQ" Version="8.2.5" />
+		<PackageReference Include="Microsoft.Data.SqlClient" Version="5.2.2" />
 		<PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2" />
 		<PackageReference Include="Swashbuckle.AspNetCore.Annotations" Version="6.6.2" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\OT.Assignment.Application\OT.Assignment.Application.csproj" />
+	  <ProjectReference Include="..\OT.Assignment.Infrastructure\OT.Assignment.Infrastructure.csproj" />
 	</ItemGroup>
 
 </Project>

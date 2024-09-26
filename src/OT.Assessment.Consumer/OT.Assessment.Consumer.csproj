@@ -9,6 +9,7 @@
 
 
 	<ItemGroup>
+		<PackageReference Include="Microsoft.Data.SqlClient" Version="5.2.2" />
 		<PackageReference Include="Microsoft.Extensions.Configuration" Version="8.0.0" />
 		<PackageReference Include="Microsoft.Extensions.Hosting" Version="8.0.0" />
 		<PackageReference Include="Microsoft.Extensions.Http" Version="8.0.0" />
@@ -20,6 +21,12 @@
 		<None Update="appsettings.json">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</None>
+	</ItemGroup>
+
+
+	<ItemGroup>
+	  <ProjectReference Include="..\OT.Assignment.Application\OT.Assignment.Application.csproj" />
+	  <ProjectReference Include="..\OT.Assignment.Infrastructure\OT.Assignment.Infrastructure.csproj" />
 	</ItemGroup>
 
 

@@ -1,14 +1,39 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-namespace OT.Assessment.App.Controllers
+using OT.Assignment.Application.DTOs;
+using OT.Assignment.Application.Interfaces;
+
+namespace OT.Assessment.App.Controllers;
+
+[Route("api/[controller]")]
+[ApiController]
+public class PlayerController : ControllerBase
 {
-  
-    [ApiController]
-    public class PlayerController : ControllerBase
+    private readonly IPlayerService _playerService;
+    private readonly IWagerService _wagerService;
+
+    public PlayerController(IPlayerService playerService, IWagerService wagerService)
     {
-        //POST api/player/casinowager
+        _playerService = playerService;
+        _wagerService = wagerService;
+    }
 
-        //GET api/player/{playerId}/wagers
+    [HttpPost("casinoWager")]
+    public IActionResult ReceivePlayerWagerEvent(
+        [FromBody] WagerPublishedEventDto wagerPublishedEventDto)
+    {
+        _wagerService.PublishWagerAsync(wagerPublishedEventDto);
+        return Ok();
+    }
+    
+    [HttpGet("{playerId}/casino")]
+    public async Task<IActionResult> GetPlayerWagersByPlayerId([FromRoute] int playerId, int currentPage, int pageSize)
+    {
+        return Ok(await _playerService.GetPaginatedWagersByPlayerId(playerId, currentPage, pageSize));
+    }
 
-        //GET api/player/topSpenders?count=10        
+    [HttpGet("topSpenders")]
+    public async Task<IActionResult> GetTopSpendingPlayers([FromQuery] int count)
+    {
+        return Ok(await _playerService.GetTopSpendingPlayersAsync(count));
     }
 }

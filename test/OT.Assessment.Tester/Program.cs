@@ -8,7 +8,7 @@ var scenario = Scenario.Create("hello_world_scenario", async context =>
         var body = JsonSerializer.Serialize(total[(int)context.InvocationNumber]);
         using var httpClient = new HttpClient();
         var request =
-            Http.CreateRequest("POST", "https://localhost:7120/api/Player/CasinoWager")
+            Http.CreateRequest("POST", "http://localhost:5021/api/Player/CasinoWager")
                 .WithHeader("Accept", "application/json")
                 .WithBody(new StringContent($"{body}", Encoding.UTF8, "application/json"));
 
